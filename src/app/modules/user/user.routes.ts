@@ -1,10 +1,13 @@
 import { Router } from "express";
+import { validateRequestData } from "../../middlewares/validateRequestData";
+import { userCreateValidationSchema } from "./user.validator";
+import { userController } from "./user.controller";
 
 /**
  * 1. User Registration
  */
-const route = Router();
+const router = Router();
 
-route.post("register")
+router.post("/register", validateRequestData(userCreateValidationSchema), userController.createUser);
 
-export default route;
+export default router;

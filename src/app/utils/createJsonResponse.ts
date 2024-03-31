@@ -1,16 +1,18 @@
 export const createJsonResponse = {
-    success: (message: string, data?: Record<string, unknown> | null) => {
+    success: (statusCode: number, message: string, data?: Record<string, unknown> | null) => {
         return {
             success: true,
+            statusCode,
             message,
             data: data ? data : null,
             error: null
         };
     },
 
-    error: (message: string, err: Error | null) => {
+    error: (statusCode: number, message: string, err: Error | null) => {
         return {
             success: false,
+            statusCode,
             error: err,
             message,
         };

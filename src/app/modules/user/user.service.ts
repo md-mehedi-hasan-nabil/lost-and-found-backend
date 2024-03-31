@@ -3,22 +3,39 @@ import { IUserRegistration } from "./user.interface";
 import bcrypt from "bcrypt";
 
 async function register(payload: IUserRegistration) {
-    const { name, email, password } = payload || {};
+    const { name, email, password, profile } = payload || {};
 
-    await prisma.user.findUniqueOrThrow({
+    const existingUser = await prisma.user.findUnique({
         where: {
             email
         }
     });
 
+    if (existingUser) {
+        throw new Error("This email is already in use.");
+    }
+
     const hashPassword = bcrypt.hashSync(password, 10);
 
-    return prisma.user.create({
-        data: {
-            name,
-            email,
-            password: hashPassword
-        }
+    return await prisma.$transaction(async function (tx) {
+        const newUser = await tx.user.create({
+            data: {
+                name,
+                email,
+                password: hashPassword,
+                profile: {
+                    create: {
+                        age: profile.age,
+                        bio: profile.bio,
+                    }
+                }
+            },
+            include: {
+                profile: true
+            }
+        })
+
+        return newUser
     })
 }
 
