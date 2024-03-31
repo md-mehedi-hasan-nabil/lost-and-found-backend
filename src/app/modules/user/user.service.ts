@@ -1,3 +1,5 @@
+import httpStatus from "http-status";
+import AppError from "../../errors/AppError";
 import { prisma } from "../../shared/prisma";
 import { IUserRegistration } from "./user.interface";
 import bcrypt from "bcrypt";
@@ -12,7 +14,7 @@ async function register(payload: IUserRegistration) {
     });
 
     if (existingUser) {
-        throw new Error("This email is already in use.");
+        throw new AppError(httpStatus.CONFLICT, "This email is already in use.");
     }
 
     const hashPassword = bcrypt.hashSync(password, 10);

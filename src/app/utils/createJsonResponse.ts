@@ -5,7 +5,6 @@ export const createJsonResponse = {
             statusCode,
             message,
             data: data ? data : null,
-            error: null
         };
     },
 

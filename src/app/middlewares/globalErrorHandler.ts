@@ -12,5 +12,5 @@ export const globalErrorHandler: ErrorRequestHandler = (
     const statusCode = error?.statusCode ? error.statusCode : httpStatus.INTERNAL_SERVER_ERROR
     const message = error?.message ? error.message : 'Server side error.'
 
-    res.status(statusCode).json(createJsonResponse.error(message, error))
+    res.status(statusCode).json(createJsonResponse.error(statusCode, message, error))
 }
