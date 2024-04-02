@@ -8,10 +8,11 @@ const router = Router();
 
 /**
  * 4. Create Report a Found Item
+ * TODO: apply pagination
  * 5. Get Paginated and Filtered Found Items
  */
 
-router.get("/found-items", verifyAuthToken, foundItemController.getAllFoundItems);
+router.get("/found-items", foundItemController.getAllFoundItems);
 router.post("/found-items", verifyAuthToken,
     validateRequestData(createFoundValidationSchema), foundItemController.createFoundItem);
 

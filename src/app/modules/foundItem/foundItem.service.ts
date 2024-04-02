@@ -4,7 +4,33 @@ import { prisma } from "../../shared/prisma";
 import { IFoundItem } from "./foundItem.interface";
 
 function getAllFoundItems() {
-    return prisma.foundItem.findMany();
+    return prisma.foundItem.findMany({
+        select: {
+            id: true,
+            foundItemName: true,
+            description: true,
+            location: true,
+            createdAt: true,
+            updatedAt: true,
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    createdAt: true,
+                    updatedAt: true
+                }
+            },
+            category: {
+                select: {
+                    id: true,
+                    name: true,
+                    createdAt: true,
+                    updatedAt: true
+                }
+            }
+        }
+    });
 }
 
 async function createNewFoundItem(payload: IFoundItem, userId: string | undefined) {
