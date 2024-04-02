@@ -2,7 +2,6 @@ import { IDecodedUser } from "../../interfaces";
 import { prisma } from "../../shared/prisma";
 import { IClaim, IClaimStatus } from "./claim.interface";
 
-
 function findAllClaims() {
     return prisma.claim.findMany({
         select: {

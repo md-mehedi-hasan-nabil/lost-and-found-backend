@@ -4,6 +4,7 @@ import authRoutes from "../app/modules/auth/auth.routes";
 import categoryRoutes from "../app/modules/category/category.routes";
 import foundItemRoutes from "../app/modules/foundItem/foundItem.routes";
 import claimRoutes from "../app/modules/claim/claim.routes";
+import profileRoutes from "../app/modules/profile/profile.routes";
 
 const router = Router();
 
@@ -27,6 +28,10 @@ const moduleRoutes = [
     {
         path: "/",
         route: claimRoutes
+    },
+    {
+        path: "/",
+        route: profileRoutes
     },
 ]
 
