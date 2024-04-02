@@ -3,6 +3,10 @@ import AppError from "../../errors/AppError";
 import { prisma } from "../../shared/prisma";
 import { IFoundItem } from "./foundItem.interface";
 
+function getAllFoundItems() {
+    return prisma.foundItem.findMany();
+}
+
 async function createNewFoundItem(payload: IFoundItem, userId: string | undefined) {
     const { categoryId, description, foundItemName, location } = payload || {};
 
@@ -13,18 +17,41 @@ async function createNewFoundItem(payload: IFoundItem, userId: string | undefine
     return prisma.foundItem.create({
         data: {
             categoryId,
+            userId,
             description,
             foundItemName,
             location,
-            userId
         },
-        include: {
-            user: true,
-            category: true
+        select: {
+            id: true,
+            userId: true,
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    createdAt: true,
+                    updatedAt: true
+                }
+            },
+            categoryId: true,
+            category: {
+                select: {
+                    id: true,
+                    name: true,
+                    createdAt: true,
+                    updatedAt: true
+                }
+            },
+            foundItemName: true,
+            description: true,
+            location: true,
+            createdAt: true,
+            updatedAt: true
         }
     })
 }
 
 export const foundItemService = {
-    createNewFoundItem
+    createNewFoundItem, getAllFoundItems
 }

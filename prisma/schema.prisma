@@ -36,18 +36,18 @@ model Profile {
 }
 
 model FoundItemCategory {
-  id        String     @id @default(uuid())
-  name      String     @unique
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  foundItem FoundItem?
+  id        String      @id @default(uuid())
+  name      String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  foundItem FoundItem[]
 }
 
 model FoundItem {
   id            String            @id @default(uuid())
   userId        String
   user          User              @relation(fields: [userId], references: [id])
-  categoryId    String            @unique
+  categoryId    String
   category      FoundItemCategory @relation(fields: [categoryId], references: [id])
   foundItemName String
   description   String

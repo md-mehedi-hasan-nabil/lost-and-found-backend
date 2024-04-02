@@ -7,7 +7,7 @@ import httpStatus from "http-status";
 const getAllCategories = handleAsyncRequest(async (req: Request, res: Response) => {
     const result = await categoryService.findCategories()
 
-    res.status(httpStatus.CREATED).json(createJsonResponse.success(httpStatus.CREATED, "Found item category reported successfully", result))
+    res.status(httpStatus.OK).json(createJsonResponse.success(httpStatus.OK, "Found item categories reported successfully", result))
 })
 
 const createCategory = handleAsyncRequest(async (req: Request, res: Response) => {
