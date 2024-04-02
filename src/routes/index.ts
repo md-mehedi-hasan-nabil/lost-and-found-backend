@@ -2,7 +2,8 @@ import { Router } from "express";
 import userRoutes from "../app/modules/user/user.routes";
 import authRoutes from "../app/modules/auth/auth.routes";
 import categoryRoutes from "../app/modules/category/category.routes";
-import foundItemsRoutes from "../app/modules/foundItem/foundItem.routes";
+import foundItemRoutes from "../app/modules/foundItem/foundItem.routes";
+import claimRoutes from "../app/modules/claim/claim.routes";
 
 const router = Router();
 
@@ -21,7 +22,11 @@ const moduleRoutes = [
     },
     {
         path: "/",
-        route: foundItemsRoutes
+        route: foundItemRoutes
+    },
+    {
+        path: "/",
+        route: claimRoutes
     },
 ]
 

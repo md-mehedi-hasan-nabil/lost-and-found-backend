@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Status {
+enum ClaimStatus {
   PENDING
   APPROVED
   REJECTED
@@ -58,14 +58,14 @@ model FoundItem {
 }
 
 model Claim {
-  id                     String    @id @default(uuid())
+  id                     String      @id @default(uuid())
   userId                 String
-  user                   User      @relation(fields: [userId], references: [id])
+  user                   User        @relation(fields: [userId], references: [id])
   foundItemId            String
-  foundItem              FoundItem @relation(fields: [foundItemId], references: [id])
-  status                 Status    @default(PENDING)
+  foundItem              FoundItem   @relation(fields: [foundItemId], references: [id])
+  status                 ClaimStatus @default(PENDING)
   distinguishingFeatures String
   lostDate               DateTime
-  createdAt              DateTime  @default(now())
-  updatedAt              DateTime  @updatedAt
+  createdAt              DateTime    @default(now())
+  updatedAt              DateTime    @updatedAt
 }
