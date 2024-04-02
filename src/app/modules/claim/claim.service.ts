@@ -3,7 +3,7 @@ import { prisma } from "../../shared/prisma";
 import { IClaim, IClaimStatus } from "./claim.interface";
 
 
-async function findAllClaims() {
+function findAllClaims() {
     return prisma.claim.findMany({
         select: {
             id: true,
@@ -14,7 +14,7 @@ async function findAllClaims() {
             status: true,
             createdAt: true,
             updatedAt: true,
-            foundItem: { 
+            foundItem: {
                 select: {
                     id: true,
                     userId: true,
@@ -33,7 +33,7 @@ async function findAllClaims() {
                             updatedAt: true
                         }
                     },
-                    category: { 
+                    category: {
                         select: {
                             id: true,
                             name: true,
@@ -61,16 +61,15 @@ function createNewClaim(payload: IClaim, user: IDecodedUser) {
     })
 }
 
-function updateClaim(status: IClaimStatus, claimId: string) {
-    return status;
-    // return prisma.claim.update({
-    //     where: {
-    //         id: claimId
-    //     },
-    //     data: {
-    //         status
-    //     }
-    // })
+function updateClaim(payload: IClaimStatus, claimId: string) {
+    return prisma.claim.update({
+        where: {
+            id: claimId
+        },
+        data: {
+            status: payload.status
+        }
+    })
 }
 
 export const claimService = {
