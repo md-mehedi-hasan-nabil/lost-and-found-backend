@@ -22,7 +22,12 @@ async function login(payload: IAuthUser) {
         throw new AppError(httpStatus.NOT_ACCEPTABLE, "Password incorrect!");
     }
 
-    const accessToken = generateToken(payload, config.JWT_SECRET as Secret, config.EXPIRES_IN as string)
+    const tokenPayload = {
+        email,
+        userId: user.id
+    }
+
+    const accessToken = generateToken(tokenPayload, config.JWT_SECRET as Secret, config.EXPIRES_IN as string)
 
     const userData = await prisma.user.findUniqueOrThrow({
         where: {

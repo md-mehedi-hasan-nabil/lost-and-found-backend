@@ -3,6 +3,10 @@ import AppError from "../../errors/AppError";
 import { prisma } from "../../shared/prisma";
 import { ICategory } from "./category.interface";
 
+async function findCategories() {
+    return await prisma.foundItemCategory.findMany();
+}
+
 
 async function createCategory(payload: ICategory) {
     const { name } = payload || {};
@@ -25,5 +29,5 @@ async function createCategory(payload: ICategory) {
 }
 
 export const categoryService = {
-    createCategory
+    createCategory, findCategories
 }

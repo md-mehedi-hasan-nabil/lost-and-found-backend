@@ -1,4 +1,4 @@
-import jwt, { Secret } from 'jsonwebtoken';
+import jwt, { Secret, TokenExpiredError } from 'jsonwebtoken';
 import { NextFunction, Request, Response } from "express";
 import config from '../config';
 import AppError from '../errors/AppError';
@@ -13,17 +13,20 @@ export function verifyAuthToken(req: Request & { user?: IDecodedUser }, res: Res
             throw new AppError(httpStatus.UNAUTHORIZED, "Unauthorized access");
         }
 
-        const decodeUser: IDecodedUser = jwt.verify(token, config.JWT_SECRET as Secret) as IDecodedUser;
+        try {
+            const decodeUser: IDecodedUser = jwt.verify(token, config.JWT_SECRET as Secret) as IDecodedUser;
 
-        if (!decodeUser) {
-            throw new AppError(httpStatus.UNAUTHORIZED, "Token is not verified");
+            req.user = decodeUser;
+
+            next();
+        } catch (error) {
+            if (error instanceof TokenExpiredError) {
+                throw new AppError(httpStatus.UNAUTHORIZED, "Token has expired");
+            } else {
+                throw new AppError(httpStatus.UNAUTHORIZED, "Token is not verified");
+            }
         }
-
-        req.user = decodeUser;
-
-        next()
-
     } catch (error) {
-        next(error)
+        next(error);
     }
 }

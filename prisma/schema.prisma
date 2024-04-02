@@ -36,32 +36,36 @@ model Profile {
 }
 
 model FoundItemCategory {
-  id        String   @id @default(uuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String     @id @default(uuid())
+  name      String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  foundItem FoundItem?
 }
 
 model FoundItem {
-  id            String   @id @default(uuid())
+  id            String            @id @default(uuid())
   userId        String
-  user          User     @relation(fields: [userId], references: [id])
-  categoryId    String
+  user          User              @relation(fields: [userId], references: [id])
+  categoryId    String            @unique
+  category      FoundItemCategory @relation(fields: [categoryId], references: [id])
   foundItemName String
   description   String
   location      String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  Claim         Claim[]
 }
 
 model Claim {
-  id                     String   @id @default(uuid())
+  id                     String    @id @default(uuid())
   userId                 String
-  user                   User     @relation(fields: [userId], references: [id])
+  user                   User      @relation(fields: [userId], references: [id])
   foundItemId            String
-  status                 Status   @default(PENDING)
+  foundItem              FoundItem @relation(fields: [foundItemId], references: [id])
+  status                 Status    @default(PENDING)
   distinguishingFeatures String
   lostDate               DateTime
-  createdAt              DateTime @default(now())
-  updatedAt              DateTime @updatedAt
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
 }

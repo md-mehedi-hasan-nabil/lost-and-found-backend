@@ -1,5 +1,5 @@
 export const createJsonResponse = {
-    success: (statusCode: number, message: string, data?: Record<string, unknown> | null) => {
+    success: (statusCode: number, message: string, data?: Record<string, unknown> | Record<string, unknown>[] | null) => {
         return {
             success: true,
             statusCode,

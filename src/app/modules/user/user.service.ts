@@ -19,7 +19,7 @@ async function register(payload: IUserRegistration) {
 
     const hashPassword = bcrypt.hashSync(password, 10);
 
-    return await prisma.$transaction(async function (tx) {
+    return await prisma.$transaction(async (tx) => {
         const newUser = await tx.user.create({
             data: {
                 name,
@@ -32,13 +32,27 @@ async function register(payload: IUserRegistration) {
                     }
                 }
             },
-            include: {
-                profile: true
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                createdAt: true,
+                updatedAt: true,
+                profile: {
+                    select: {
+                        id: true,
+                        userId: true,
+                        age: true,
+                        bio: true,
+                        createdAt: true,
+                        updatedAt: true,
+                    }
+                }
             }
-        })
+        });
 
-        return newUser
-    })
+        return newUser;
+    });
 }
 
 export const userService = {
