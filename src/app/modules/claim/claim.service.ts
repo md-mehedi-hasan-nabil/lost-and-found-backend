@@ -1,5 +1,7 @@
+import httpStatus from "http-status";
+import AppError from "../../errors/AppError";
 import { IDecodedUser } from "../../interfaces";
-import  prisma  from "../../shared/prisma";
+import prisma from "../../shared/prisma";
 import { IClaim, IClaimStatus } from "./claim.interface";
 
 function findAllClaims() {
@@ -60,7 +62,17 @@ function createNewClaim(payload: IClaim, user: IDecodedUser) {
     })
 }
 
-function updateClaim(payload: IClaimStatus, claimId: string) {
+async function updateClaim(payload: IClaimStatus, claimId: string) {
+    const claim = await prisma.claim.findUnique({
+        where: {
+            id: claimId
+        }
+    })
+
+    if (!claim) {
+        throw new AppError(httpStatus.NOT_FOUND, "Claim is not found");
+    }
+
     return prisma.claim.update({
         where: {
             id: claimId
