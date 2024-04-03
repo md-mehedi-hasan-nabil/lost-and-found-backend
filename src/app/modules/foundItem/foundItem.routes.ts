@@ -8,7 +8,6 @@ const router = Router();
 
 /**
  * 4. Create Report a Found Item
- * TODO: apply pagination
  * 5. Get Paginated and Filtered Found Items
  */
 

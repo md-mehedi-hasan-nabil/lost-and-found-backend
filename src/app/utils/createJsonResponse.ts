@@ -8,12 +8,11 @@ export const createJsonResponse = {
         };
     },
 
-    error: (statusCode: number, message: string, err: Error | null) => {
+    error: (message: string, err: Error | null) => {
         return {
             success: false,
-            statusCode,
-            error: err,
             message,
+            errorDetails: err,
         };
     },
 };

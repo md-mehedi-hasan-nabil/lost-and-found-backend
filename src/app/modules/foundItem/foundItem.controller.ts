@@ -6,9 +6,15 @@ import httpStatus from "http-status";
 import { createJsonResponse } from "../../utils/createJsonResponse";
 
 const getAllFoundItems = handleAsyncRequest(async function (req: Request, res: Response) {
-    const result = await foundItemService.getAllFoundItems();
+    const { data, meta } = await foundItemService.getAllFoundItems(req);
 
-    res.status(httpStatus.OK).json(createJsonResponse.success(httpStatus.OK, "Found items retrieved successfully", result));
+    res.status(httpStatus.OK).json({
+        success: true,
+        statusCode: httpStatus.OK,
+        message: "Found items retrieved successfully",
+        meta,
+        data
+    });
 })
 
 const createFoundItem = handleAsyncRequest(async function (req: Request & { user?: IDecodedUser }, res: Response) {
