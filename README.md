@@ -19,3 +19,12 @@ pnpm install
 pnpm run dev
 ```
 
+## Used Technologies:
+
+1. TypeScript
+2. Express.js
+3. Prisma  (ORM)for PostgreSQL
+4. JWT (JSON Web Tokens)
+
+### Documentation
+Link: https://documenter.getpostman.com/view/12221213/2sA35K1Kzf
