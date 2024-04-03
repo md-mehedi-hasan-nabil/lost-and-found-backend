@@ -2,7 +2,7 @@ import { Request } from "express";
 import httpStatus from "http-status";
 import { Prisma } from "@prisma/client";
 import AppError from "../../errors/AppError";
-import { prisma } from "../../shared/prisma";
+import  prisma  from "../../shared/prisma";
 import { IFoundItem } from "./foundItem.interface";
 
 async function getAllFoundItems(req: Request) {

@@ -6,7 +6,7 @@ dotenv.config({
 })
 
 export default {
-    PORT: process.env.PORT,
+    PORT: process.env.PORT || 5000,
     DB_URI: process.env.DB_URI,
     JWT_SECRET: process.env.JWT_SECRET,
     EXPIRES_IN: process.env.EXPIRES_IN

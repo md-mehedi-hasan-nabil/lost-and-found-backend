@@ -1,6 +1,6 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
-import { prisma } from "../../shared/prisma";
+import  prisma  from "../../shared/prisma";
 import { IUserRegistration } from "./user.interface";
 import bcrypt from "bcrypt";
 

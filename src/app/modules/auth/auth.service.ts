@@ -2,7 +2,7 @@ import { Secret } from 'jsonwebtoken';
 import httpStatus from "http-status";
 import config from "../../config";
 import AppError from "../../errors/AppError";
-import { prisma } from "../../shared/prisma";
+import prisma from "../../shared/prisma";
 import { generateToken } from "../../utils/generateToken";
 import { IAuthUser } from "./auth.interface";
 import bcrypt from "bcrypt";

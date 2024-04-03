@@ -1,5 +1,5 @@
 import { IDecodedUser } from "../../interfaces";
-import { prisma } from "../../shared/prisma";
+import  prisma  from "../../shared/prisma";
 import { IUpdateProfile } from "./profile.interface";
 
 
