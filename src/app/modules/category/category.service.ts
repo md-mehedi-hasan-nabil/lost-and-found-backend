@@ -17,7 +17,7 @@ async function createCategory(payload: ICategory) {
         }
     });
 
-    if (category) {
+    if (Object.keys(category).length > 0) {
         throw new AppError(httpStatus.CONFLICT, "This category name already exists")
     }
 
