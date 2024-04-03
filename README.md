@@ -19,7 +19,7 @@ pnpm install
 pnpm run dev
 ```
 
-## Used Technologies:
+### Used Technologies:
 
 1. TypeScript
 2. Express.js
