@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Status" AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
+CREATE TYPE "ClaimStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -54,7 +54,7 @@ CREATE TABLE "Claim" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "foundItemId" TEXT NOT NULL,
-    "status" "Status" NOT NULL DEFAULT 'PENDING',
+    "status" "ClaimStatus" NOT NULL DEFAULT 'PENDING',
     "distinguishingFeatures" TEXT NOT NULL,
     "lostDate" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -68,12 +68,6 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "FoundItemCategory_name_key" ON "FoundItemCategory"("name");
-
--- CreateIndex
-CREATE UNIQUE INDEX "FoundItem_categoryId_key" ON "FoundItem"("categoryId");
 
 -- AddForeignKey
 ALTER TABLE "Profile" ADD CONSTRAINT "Profile_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
