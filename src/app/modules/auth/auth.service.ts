@@ -24,7 +24,8 @@ async function login(payload: IAuthUser) {
 
     const tokenPayload = {
         email,
-        userId: user.id
+        userId: user.id,
+        role: user.role
     }
 
     const accessToken = generateToken(tokenPayload, config.JWT_SECRET as Secret, config.EXPIRES_IN as string)
@@ -44,7 +45,6 @@ async function login(payload: IAuthUser) {
         ...userData, token: accessToken
     }
 }
-
 
 export const authService = {
     login

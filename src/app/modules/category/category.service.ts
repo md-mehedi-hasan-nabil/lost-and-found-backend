@@ -4,14 +4,13 @@ import  prisma  from "../../shared/prisma";
 import { ICategory } from "./category.interface";
 
 async function findCategories() {
-    return await prisma.foundItemCategory.findMany();
+    return await prisma.itemCategory.findMany();
 }
-
 
 async function createCategory(payload: ICategory) {
     const { name } = payload || {};
 
-    const category = await prisma.foundItemCategory.findMany({
+    const category = await prisma.itemCategory.findMany({
         where: {
             name
         }
@@ -21,7 +20,7 @@ async function createCategory(payload: ICategory) {
         throw new AppError(httpStatus.CONFLICT, "This category name already exists")
     }
 
-    return prisma.foundItemCategory.create({
+    return prisma.itemCategory.create({
         data: {
             name
         }

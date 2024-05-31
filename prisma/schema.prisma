@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 enum ClaimStatus {
@@ -13,16 +13,35 @@ enum ClaimStatus {
   REJECTED
 }
 
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum ItemStatus {
+  LOST
+  FOUND
+  CLAIMED
+}
+
+enum ItemType {
+  LOST
+  FOUND
+}
+
 model User {
-  id         String      @id @default(uuid())
-  name       String
-  email      String      @unique
-  password   String
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  profile    Profile?
-  foundItems FoundItem[]
-  claims     Claim[]
+  id        String   @id @default(uuid())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  role      UserRole @default(USER)
+  profile   Profile?
+  items     Item[]
+  claims    Claim[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
 }
 
 model Profile {
@@ -33,39 +52,62 @@ model Profile {
   age       Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("profiles")
 }
 
-model FoundItemCategory {
-  id        String      @id @default(uuid())
+model Contact {
+  id     String  @id @default(uuid())
+  email  String
+  phone  String
+  itemId String?
+  item   Item?
+
+  @@map("contacts")
+}
+
+model ItemCategory {
+  id        String   @id @default(uuid())
   name      String
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  foundItem FoundItem[]
+  items     Item[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("item_category")
 }
 
-model FoundItem {
-  id            String            @id @default(uuid())
-  userId        String
-  user          User              @relation(fields: [userId], references: [id])
-  categoryId    String
-  category      FoundItemCategory @relation(fields: [categoryId], references: [id])
-  foundItemName String
-  description   String
-  location      String
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @updatedAt
-  Claim         Claim[]
+model Item {
+  id          String       @id @default(uuid())
+  userId      String
+  user        User         @relation(fields: [userId], references: [id])
+  categoryId  String
+  category    ItemCategory @relation(fields: [categoryId], references: [id])
+  name        String
+  description String
+  location    String
+  date        DateTime // Used for both lost and found dates
+  itemType    ItemType // Differentiates between lost and found items
+  status      ItemStatus   @default(LOST)
+  contactId   String?      @unique
+  contact     Contact?     @relation(fields: [contactId], references: [id])
+  image_url   String?
+  claims      Claim[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("items")
 }
 
 model Claim {
   id                     String      @id @default(uuid())
   userId                 String
   user                   User        @relation(fields: [userId], references: [id])
-  foundItemId            String
-  foundItem              FoundItem   @relation(fields: [foundItemId], references: [id])
+  itemId                 String
+  item                   Item        @relation(fields: [itemId], references: [id])
   status                 ClaimStatus @default(PENDING)
   distinguishingFeatures String
-  lostDate               DateTime
   createdAt              DateTime    @default(now())
   updatedAt              DateTime    @updatedAt
+
+  @@map("claims")
 }

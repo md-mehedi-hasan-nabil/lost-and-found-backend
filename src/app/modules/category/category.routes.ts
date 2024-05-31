@@ -9,7 +9,7 @@ import { verifyAuthToken } from "../../middlewares/verifyAuthToken";
  */
 const router = Router();
 
-router.get("/found-item-categories", categoryController.getAllCategories);
-router.post("/found-item-categories", validateRequestData(categoryCreateValidationSchema), verifyAuthToken, categoryController.createCategory);
+router.get("/categories", categoryController.getAllCategories);
+router.post("/categories", validateRequestData(categoryCreateValidationSchema), verifyAuthToken, categoryController.createCategory);
 
 export default router;
