@@ -8,7 +8,18 @@ function findAllItems() {
 }
 
 async function createNewItem(payload: ICreateItem, user: IDecodedUser) {
-    const { name, description, itemType, date, location, categoryId, image_url } = payload;
+    const { name, description, itemType, date, location, categoryId, image_url, contact } = payload || {};
+
+    let new_contact;
+
+    if (contact) {
+        new_contact = await prisma.contact.create({
+            data: {
+                email: contact?.email ? contact?.email : "",
+                phone: contact?.phone ? contact?.phone : ""
+            }
+        })
+    }
 
     const data: Prisma.ItemCreateInput = {
         name,
@@ -24,6 +35,14 @@ async function createNewItem(payload: ICreateItem, user: IDecodedUser) {
         },
         image_url: image_url ? image_url : null
     };
+
+    if (new_contact?.id) {
+        data.contact = {
+            connect: {
+                id: new_contact?.id
+            }
+        }
+    }
 
     return await prisma.item.create({
         data

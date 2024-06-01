@@ -1,4 +1,4 @@
-## Assignment-8 Lost and Found System
+## Lost and Found System
 
 1. Clone the Project:
 

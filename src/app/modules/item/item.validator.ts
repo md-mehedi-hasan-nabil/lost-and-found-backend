@@ -11,6 +11,10 @@ export const createItemValidationSchema = z.object({
     location: z.string({ required_error: "Location is required" }),
     categoryId: z.string().uuid("Invalid category ID format"),
     image_url: z.string().url().optional(),
+    contact: z.object({
+        email: z.string(),
+        phone: z.string()
+    }).optional()
 });
 
 

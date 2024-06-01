@@ -8,4 +8,8 @@ export interface ICreateItem {
     location: string;
     categoryId: string;
     image_url?: string;
+    contact?: {
+        email?: string;
+        phone?: string;
+    }
 }

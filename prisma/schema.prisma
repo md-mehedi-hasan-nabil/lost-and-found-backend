@@ -31,7 +31,7 @@ enum ItemType {
 
 model User {
   id        String   @id @default(uuid())
-  username  String   @unique
+  name      String   @unique
   email     String   @unique
   password  String
   role      UserRole @default(USER)
@@ -86,6 +86,7 @@ model Item {
   description String
   location    String
   date        DateTime // Used for both lost and found dates
+  time        DateTime // Used for both lost and found dates
   itemType    ItemType // Differentiates between lost and found items
   status      ItemStatus   @default(LOST)
   contactId   String?      @unique
