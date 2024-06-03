@@ -6,7 +6,7 @@ import { createJsonResponse } from "../../utils/createJsonResponse";
 import { Request, Response } from "express";
 
 const getAllItems = handleAsyncRequest(async function (req: Request, res: Response) {
-    const result = await itemsService.findAllItems()
+    const result = await itemsService.findAllItems(req)
 
     res.status(httpStatus.OK).json(createJsonResponse.success(httpStatus.OK, "Items retrieved successfully", result));
 })

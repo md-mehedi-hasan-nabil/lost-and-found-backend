@@ -1,57 +1,19 @@
-/*
-  Warnings:
+-- CreateEnum
+CREATE TYPE "ClaimStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
 
-  - You are about to drop the `Claim` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Contact` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Item` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `ItemCategory` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Profile` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `User` table. If the table is not empty, all the data it contains will be lost.
+-- CreateEnum
+CREATE TYPE "UserRole" AS ENUM ('ADMIN', 'USER');
 
-*/
+-- CreateEnum
+CREATE TYPE "ItemStatus" AS ENUM ('LOST', 'FOUND', 'CLAIMED');
+
 -- CreateEnum
 CREATE TYPE "ItemType" AS ENUM ('LOST', 'FOUND');
-
--- DropForeignKey
-ALTER TABLE "Claim" DROP CONSTRAINT "Claim_itemId_fkey";
-
--- DropForeignKey
-ALTER TABLE "Claim" DROP CONSTRAINT "Claim_userId_fkey";
-
--- DropForeignKey
-ALTER TABLE "Item" DROP CONSTRAINT "Item_categoryId_fkey";
-
--- DropForeignKey
-ALTER TABLE "Item" DROP CONSTRAINT "Item_contactId_fkey";
-
--- DropForeignKey
-ALTER TABLE "Item" DROP CONSTRAINT "Item_userId_fkey";
-
--- DropForeignKey
-ALTER TABLE "Profile" DROP CONSTRAINT "Profile_userId_fkey";
-
--- DropTable
-DROP TABLE "Claim";
-
--- DropTable
-DROP TABLE "Contact";
-
--- DropTable
-DROP TABLE "Item";
-
--- DropTable
-DROP TABLE "ItemCategory";
-
--- DropTable
-DROP TABLE "Profile";
-
--- DropTable
-DROP TABLE "User";
 
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
-    "username" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "role" "UserRole" NOT NULL DEFAULT 'USER',
@@ -102,6 +64,7 @@ CREATE TABLE "items" (
     "description" TEXT NOT NULL,
     "location" TEXT NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
+    "time" TIMESTAMP(3) NOT NULL,
     "itemType" "ItemType" NOT NULL,
     "status" "ItemStatus" NOT NULL DEFAULT 'LOST',
     "contactId" TEXT,
@@ -124,9 +87,6 @@ CREATE TABLE "claims" (
 
     CONSTRAINT "claims_pkey" PRIMARY KEY ("id")
 );
-
--- CreateIndex
-CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
