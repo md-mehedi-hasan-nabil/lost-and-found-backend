@@ -28,6 +28,33 @@ function findAllItems(req: Request) {
     })
 }
 
+function findItemById(req: Request) {
+    const id = req.params["itemId"]
+    const itemType = req.query?.type
+
+    const whereCondition: Prisma.ItemWhereUniqueInput = {
+        id
+    }
+
+    if (itemType) {
+        whereCondition.itemType = (itemType as string).toUpperCase() as ItemType
+    }
+
+    return prisma.item.findFirstOrThrow({
+        where: whereCondition,
+        include: {
+            category: true,
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true
+                }
+            }
+        }
+    })
+}
+
 async function createNewItem(payload: ICreateItem, user: IDecodedUser) {
     const { name, description, itemType, date, location, categoryId, image_url, contact, time } = payload || {};
 
@@ -77,5 +104,6 @@ async function createNewItem(payload: ICreateItem, user: IDecodedUser) {
 
 export const itemsService = {
     findAllItems,
+    findItemById,
     createNewItem
 }
