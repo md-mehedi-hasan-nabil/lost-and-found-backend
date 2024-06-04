@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum ClaimStatus {
+enum Status {
   PENDING
   APPROVED
   REJECTED
@@ -16,12 +16,6 @@ enum ClaimStatus {
 enum UserRole {
   ADMIN
   USER
-}
-
-enum ItemStatus {
-  LOST
-  FOUND
-  CLAIMED
 }
 
 enum ItemType {
@@ -88,7 +82,7 @@ model Item {
   date        DateTime // Used for both lost and found dates
   time        String // Used for both lost and found dates
   itemType    ItemType // Differentiates between lost and found items
-  status      ItemStatus   @default(LOST)
+  status      Status       @default(PENDING)
   contactId   String?      @unique
   contact     Contact?     @relation(fields: [contactId], references: [id])
   image_url   String?
@@ -100,15 +94,15 @@ model Item {
 }
 
 model Claim {
-  id                     String      @id @default(uuid())
+  id                     String   @id @default(uuid())
   userId                 String
-  user                   User        @relation(fields: [userId], references: [id])
+  user                   User     @relation(fields: [userId], references: [id])
   itemId                 String
-  item                   Item        @relation(fields: [itemId], references: [id])
-  status                 ClaimStatus @default(PENDING)
+  item                   Item     @relation(fields: [itemId], references: [id])
+  status                 Status   @default(PENDING)
   distinguishingFeatures String
-  createdAt              DateTime    @default(now())
-  updatedAt              DateTime    @updatedAt
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
 
   @@map("claims")
 }

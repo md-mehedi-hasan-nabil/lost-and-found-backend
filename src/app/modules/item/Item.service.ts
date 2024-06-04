@@ -55,9 +55,12 @@ async function createNewItem(payload: ICreateItem, user: IDecodedUser) {
         user: {
             connect: { id: user.userId }
         },
-        image_url: image_url ? image_url : null,
-        status: itemType === "LOST" ? "LOST" : "FOUND"
+        image_url: image_url ? image_url : null
     };
+
+    if (itemType === "LOST") {
+        data.status = "APPROVED"
+    }
 
     if (new_contact && new_contact?.id) {
         data.contact = {
