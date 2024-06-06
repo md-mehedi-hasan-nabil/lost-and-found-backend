@@ -101,6 +101,7 @@ model Claim {
   item                   Item     @relation(fields: [itemId], references: [id])
   status                 Status   @default(PENDING)
   distinguishingFeatures String
+  lostDate               DateTime
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt
 

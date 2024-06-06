@@ -4,42 +4,35 @@ import { IDecodedUser } from "../../interfaces";
 import prisma from "../../shared/prisma";
 import { IClaim, IClaimStatus } from "./claim.interface";
 
-function findAllClaims() {
+
+function findAllClaims(user: IDecodedUser) {
+    const userId = user?.userId;
+
     return prisma.claim.findMany({
+        where: {
+            userId
+        },
         select: {
             id: true,
-            userId: true,
-            foundItemId: true,
-            distinguishingFeatures: true,
             lostDate: true,
             status: true,
             createdAt: true,
-            updatedAt: true,
-            foundItem: {
+            distinguishingFeatures: true,
+            item: {
                 select: {
                     id: true,
-                    userId: true,
-                    categoryId: true,
-                    foundItemName: true,
-                    description: true,
-                    location: true,
-                    createdAt: true,
-                    updatedAt: true,
-                    user: {
+                    image_url: true,
+                    name: true
+                }
+            },
+            user: {
+                select: {
+                    email: true,
+                    name: true,
+                    profile: {
                         select: {
-                            id: true,
-                            name: true,
-                            email: true,
-                            createdAt: true,
-                            updatedAt: true
-                        }
-                    },
-                    category: {
-                        select: {
-                            id: true,
-                            name: true,
-                            createdAt: true,
-                            updatedAt: true
+                            age: true,
+                            bio: true
                         }
                     }
                 }
@@ -50,14 +43,14 @@ function findAllClaims() {
 
 function createNewClaim(payload: IClaim, user: IDecodedUser) {
     const userId = user?.userId;
-    const { foundItemId, distinguishingFeatures, lostDate } = payload || {};
+    const { itemId, distinguishingFeatures, lostDate } = payload || {};
 
     return prisma.claim.create({
         data: {
-            userId,
-            foundItemId,
             distinguishingFeatures,
-            lostDate
+            lostDate,
+            userId,
+            itemId
         }
     })
 }

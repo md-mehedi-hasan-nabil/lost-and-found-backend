@@ -1,11 +1,11 @@
-import { ClaimStatus } from "@prisma/client";
+import { Status } from "@prisma/client";
 
 export interface IClaim {
-    foundItemId: string;
+    itemId: string;
     distinguishingFeatures: string;
     lostDate: Date
 }
 
 export interface IClaimStatus {
-    status: ClaimStatus
+    status: Status
 }

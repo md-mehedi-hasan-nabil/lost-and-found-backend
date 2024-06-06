@@ -5,8 +5,9 @@ import { handleAsyncRequest } from "../../utils/handleAsyncRequest";
 import { claimService } from "./claim.service";
 import { IDecodedUser } from "../../interfaces";
 
-const getAllClaims = handleAsyncRequest(async function (req: Request, res: Response) {
-    const result = await claimService.findAllClaims()
+const getAllClaims = handleAsyncRequest(async function (req: Request & { user?: IDecodedUser }, res: Response) {
+    const user = req.user;
+    const result = await claimService.findAllClaims(user as IDecodedUser)
 
     res.status(httpStatus.OK).json(createJsonResponse.success(httpStatus.OK, "Claims retrieved successfully", result));
 })
