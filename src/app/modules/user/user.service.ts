@@ -1,8 +1,26 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
-import  prisma  from "../../shared/prisma";
+import prisma from "../../shared/prisma";
 import { IUserRegistration } from "./user.interface";
 import bcrypt from "bcrypt";
+import { UserStatus } from "@prisma/client";
+
+function findAllUsers() {
+    return prisma.user.findMany({
+        where: {
+            status: UserStatus.ACTIVATE
+        },
+        select: {
+            id: true,
+            email: true,
+            name: true,
+            role: true,
+            status: true,
+            profile: true,
+        },
+
+    })
+}
 
 async function register(payload: IUserRegistration) {
     const { name, email, password, profile } = payload || {};
@@ -56,5 +74,6 @@ async function register(payload: IUserRegistration) {
 }
 
 export const userService = {
+    findAllUsers,
     register
 }

@@ -4,6 +4,12 @@ import { handleAsyncRequest } from "../../utils/handleAsyncRequest";
 import { createJsonResponse } from '../../utils/createJsonResponse';
 import { userService } from './user.service';
 
+const getAllUsers = handleAsyncRequest(async (req: Request, res: Response) => {
+    const result = await userService.findAllUsers()
+
+    res.status(httpStatus.OK).json(createJsonResponse.success(httpStatus.OK, "User fetch successfully", result))
+})
+
 const createUser = handleAsyncRequest(async (req: Request, res: Response) => {
     const result = await userService.register(req.body);
 
@@ -11,5 +17,6 @@ const createUser = handleAsyncRequest(async (req: Request, res: Response) => {
 })
 
 export const userController = {
+    getAllUsers,
     createUser
 }

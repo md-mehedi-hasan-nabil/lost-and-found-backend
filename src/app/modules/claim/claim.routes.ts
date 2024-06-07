@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { verifyAuthToken } from '../../middlewares/verifyAuthToken';
 import { validateRequestData } from '../../middlewares/validateRequestData';
 import { createClaimValidationSchema, updateClaimStatusValidationSchema } from './claim.validator';
 import { claimController } from './claim.controller';
+import verifyAuthToken from '../../middlewares/verifyAuthToken';
 
 /**
  * get claim
@@ -12,10 +12,12 @@ import { claimController } from './claim.controller';
 
 const router = Router()
 
-router.get("/", verifyAuthToken, claimController.getAllClaims);
-router.post("/", verifyAuthToken, validateRequestData(createClaimValidationSchema),
+router.get("/", verifyAuthToken("ADMIN", "USER"), claimController.getAllClaims);
+
+router.post("/", verifyAuthToken("ADMIN", "USER"), validateRequestData(createClaimValidationSchema),
     claimController.createClaim);
-router.put("/:claimId", verifyAuthToken,
+
+router.put("/:claimId", verifyAuthToken("ADMIN", "USER"),
     validateRequestData(updateClaimStatusValidationSchema),
     claimController.updateClaimStatus);
 

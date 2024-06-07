@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { verifyAuthToken } from "../../middlewares/verifyAuthToken";
 import { profileController } from "./profile.controller";
 import { validateRequestData } from "../../middlewares/validateRequestData";
 import { updateProfileValidationSchema } from "./profile.valiator";
+import verifyAuthToken from "../../middlewares/verifyAuthToken";
 
 
 const router = Router();
@@ -12,8 +12,8 @@ const router = Router();
  * 
  */
 
-router.get("/my-profile", verifyAuthToken, profileController.getUserProfile);
-router.put("/my-profile", verifyAuthToken,
+router.get("/my-profile", verifyAuthToken("ADMIN", "USER"), profileController.getUserProfile);
+router.put("/my-profile", verifyAuthToken("ADMIN", "USER"),
     validateRequestData(updateProfileValidationSchema), profileController.updateProfileInfo);
 
 export default router;

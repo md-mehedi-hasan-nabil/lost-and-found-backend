@@ -8,6 +8,7 @@ import { userController } from "./user.controller";
  */
 const router = Router();
 
+router.get("/users", userController.getAllUsers);
 router.post("/register", validateRequestData(userCreateValidationSchema), userController.createUser);
 
 export default router;
