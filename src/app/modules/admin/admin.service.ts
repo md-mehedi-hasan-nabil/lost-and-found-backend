@@ -27,6 +27,28 @@ async function findDashboardMeta() {
     }
 }
 
+async function userStatusChange(userId: string, payload: {
+    status: UserStatus
+}) {
+    const { status } = payload
+
+    await prisma.user.findFirstOrThrow({
+        where: {
+            id: userId
+        }
+    })
+
+    return await prisma.user.update({
+        where: {
+            id: userId
+        },
+        data: {
+            status
+        }
+    })
+}
+
 export const adminService = {
-    findDashboardMeta
+    findDashboardMeta,
+    userStatusChange
 }

@@ -3,13 +3,9 @@ import AppError from "../../errors/AppError";
 import prisma from "../../shared/prisma";
 import { IUserRegistration } from "./user.interface";
 import bcrypt from "bcrypt";
-import { UserStatus } from "@prisma/client";
 
 function findAllUsers() {
     return prisma.user.findMany({
-        where: {
-            status: UserStatus.ACTIVATE
-        },
         select: {
             id: true,
             email: true,
@@ -17,8 +13,7 @@ function findAllUsers() {
             role: true,
             status: true,
             profile: true,
-        },
-
+        }
     })
 }
 
