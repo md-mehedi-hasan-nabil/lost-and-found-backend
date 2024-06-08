@@ -3,20 +3,20 @@
 1. Clone the Project:
 
 ```bash
-git clone https://github.com/Porgramming-Hero-web-course/l2-b2-fullstack-track-assignment-8-md-mehedi-hasan-nabil.git
-cd l2-b2-fullstack-track-assignment-8-md-mehedi-hasan-nabil
+git clone https://github.com/md-mehedi-hasan-nabil/lost-and-found-backend.git
+cd lost-and-found-backend
 ```
 
 2. Install Dependencies:
 
 ```bash
-pnpm install
+npm install
 ```
 
 3. Run the Project:
 
 ```bash
-pnpm run dev
+npm run dev
 ```
 
 ### Used Technologies:
@@ -40,7 +40,5 @@ pnpm run dev
 10. **Update My Profile:** Modify user's profile details.
 
 ### API Url
-Link: https://assignment-8-lost-and-found-system.vercel.app
+Link: https://lost-and-found-backend-fawn.vercel.app
 
-### Documentation
-Link: https://documenter.getpostman.com/view/12221213/2sA35K1Kzf

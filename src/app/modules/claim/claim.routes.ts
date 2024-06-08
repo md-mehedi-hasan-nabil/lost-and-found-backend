@@ -17,7 +17,7 @@ router.get("/", verifyAuthToken("ADMIN", "USER"), claimController.getAllClaims);
 router.post("/", verifyAuthToken("ADMIN", "USER"), validateRequestData(createClaimValidationSchema),
     claimController.createClaim);
 
-router.put("/:claimId", verifyAuthToken("ADMIN", "USER"),
+router.patch("/:claimId", verifyAuthToken("ADMIN", "USER"),
     validateRequestData(updateClaimStatusValidationSchema),
     claimController.updateClaimStatus);
 

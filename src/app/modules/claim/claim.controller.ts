@@ -21,9 +21,9 @@ const createClaim = handleAsyncRequest(async function (req: Request & { user?: I
 
 const updateClaimStatus = handleAsyncRequest(async function (req: Request, res: Response) {
     const claimId = req.params["claimId"];
-    const result = await claimService.updateClaim(req.body, claimId);
+    const result = await claimService.claimStatusChange(claimId, req.body)
 
-    res.status(httpStatus.OK).json(createJsonResponse.success(httpStatus.OK, "Claim updated successfully", result));
+    res.status(httpStatus.OK).json(createJsonResponse.success(httpStatus.OK, "Claim update successfully", result));
 })
 
 export const claimController = {
