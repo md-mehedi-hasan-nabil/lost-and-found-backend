@@ -16,4 +16,8 @@ export const createItemValidationSchema = z.object({
     }).optional()
 });
 
+export const updateItemStatusValidationSchema = z.object({
+    status: z.enum(["PENDING", "APPROVED", "REJECTED"]),
+})
+
 

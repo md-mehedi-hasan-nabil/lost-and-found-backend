@@ -26,18 +26,18 @@ const moduleRoutes = [
         path: "/categories",
         route: categoryRoutes
     },
-    // {
-    //     path: "/items",
-    //     route: itemsRoutes
-    // },
-    // {
-    //     path: "/claims",
-    //     route: claimRoutes
-    // },
-    // {
-    //     path: "/",
-    //     route: profileRoutes
-    // },
+    {
+        path: "/items",
+        route: itemsRoutes
+    },
+    {
+        path: "/claims",
+        route: claimRoutes
+    },
+    {
+        path: "/",
+        route: profileRoutes
+    },
 ]
 
 moduleRoutes.forEach(item => router.use(item.path, item.route))

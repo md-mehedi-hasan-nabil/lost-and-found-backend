@@ -1,10 +1,10 @@
-import { ItemType, Prisma } from "@prisma/client";
+import { ItemType, Prisma, Status } from "@prisma/client";
 import { IDecodedUser } from "../../interfaces";
 import prisma from "../../shared/prisma";
 import { ICreateItem } from "./item.interface";
 import { Request } from "express";
 
-function findAllItems(req: Request) {
+async function findAllItems(req: Request) {
     const itemType = req.query?.type
 
     const whereCondition: Prisma.ItemWhereInput = {}
@@ -13,7 +13,36 @@ function findAllItems(req: Request) {
         whereCondition.itemType = (itemType as string).toUpperCase() as ItemType
     }
 
-    return prisma.item.findMany({
+    return await prisma.item.findMany({
+        where: whereCondition,
+        include: {
+            category: true,
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true
+                }
+            }
+        }
+    })
+}
+
+async function findMyAllItems(req: Request & { user?: IDecodedUser }) {
+    const itemType = req.query?.type
+    const userId = req?.user?.userId;
+
+    const whereCondition: Prisma.ItemWhereInput = {}
+
+    if (userId) {
+        whereCondition.userId = userId
+    }
+
+    if (itemType) {
+        whereCondition.itemType = (itemType as string).toUpperCase() as ItemType
+    }
+
+    return await prisma.item.findMany({
         where: whereCondition,
         include: {
             category: true,
@@ -102,8 +131,31 @@ async function createNewItem(payload: ICreateItem, user: IDecodedUser) {
     });
 }
 
+async function itemStatusChange(itemId: string, payload: {
+    status: Status
+}) {
+    const { status } = payload
+
+    await prisma.item.findFirstOrThrow({
+        where: {
+            id: itemId
+        }
+    })
+
+    return await prisma.item.update({
+        where: {
+            id: itemId
+        },
+        data: {
+            status
+        }
+    })
+}
+
 export const itemsService = {
     findAllItems,
+    findMyAllItems,
     findItemById,
-    createNewItem
+    createNewItem,
+    itemStatusChange
 }

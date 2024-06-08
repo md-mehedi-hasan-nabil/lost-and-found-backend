@@ -5,40 +5,77 @@ import prisma from "../../shared/prisma";
 import { IClaim, IClaimStatus } from "./claim.interface";
 
 
-function findAllClaims(user: IDecodedUser) {
+async function findAllClaims(user: IDecodedUser) {
     const userId = user?.userId;
 
-    return prisma.claim.findMany({
+    const userInfo = await prisma.user.findUniqueOrThrow({
         where: {
-            userId
-        },
-        select: {
-            id: true,
-            lostDate: true,
-            status: true,
-            createdAt: true,
-            distinguishingFeatures: true,
-            item: {
-                select: {
-                    id: true,
-                    image_url: true,
-                    name: true
-                }
-            },
-            user: {
-                select: {
-                    email: true,
-                    name: true,
-                    profile: {
-                        select: {
-                            age: true,
-                            bio: true
+            id: userId
+        }
+    })
+
+    if (userInfo?.role === "ADMIN") {
+        return prisma.claim.findMany({
+            select: {
+                id: true,
+                lostDate: true,
+                status: true,
+                createdAt: true,
+                distinguishingFeatures: true,
+                item: {
+                    select: {
+                        id: true,
+                        image_url: true,
+                        name: true
+                    }
+                },
+                user: {
+                    select: {
+                        email: true,
+                        name: true,
+                        profile: {
+                            select: {
+                                age: true,
+                                bio: true
+                            }
                         }
                     }
                 }
             }
-        }
-    });
+        });
+    } else {
+        return prisma.claim.findMany({
+            where: {
+                userId
+            },
+            select: {
+                id: true,
+                lostDate: true,
+                status: true,
+                createdAt: true,
+                distinguishingFeatures: true,
+                item: {
+                    select: {
+                        id: true,
+                        image_url: true,
+                        name: true
+                    }
+                },
+                user: {
+                    select: {
+                        email: true,
+                        name: true,
+                        profile: {
+                            select: {
+                                age: true,
+                                bio: true
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
 }
 
 function createNewClaim(payload: IClaim, user: IDecodedUser) {
