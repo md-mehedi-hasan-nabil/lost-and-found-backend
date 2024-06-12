@@ -10,13 +10,6 @@ const getAllUsers = handleAsyncRequest(async (req: Request, res: Response) => {
     res.status(httpStatus.OK).json(createJsonResponse.success(httpStatus.OK, "User fetch successfully", result))
 })
 
-const createUser = handleAsyncRequest(async (req: Request, res: Response) => {
-    const result = await userService.register(req.body);
-
-    res.status(httpStatus.CREATED).json(createJsonResponse.success(httpStatus.CREATED, "User registered successfully", result))
-})
-
 export const userController = {
-    getAllUsers,
-    createUser
+    getAllUsers
 }
